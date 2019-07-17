@@ -19,6 +19,9 @@ df_test = hive_context.sql("""
     on t1.id = t2.id
  """)
 
+# Check empty rate for each column
+df_test.select([count(when(isnan(c) | col(c).isNull(), c)).alias(c) for c in df.columns]).show()
+
 
 # Define a function to extract the id from the request URLs
 def extract_product_id(url_input):
